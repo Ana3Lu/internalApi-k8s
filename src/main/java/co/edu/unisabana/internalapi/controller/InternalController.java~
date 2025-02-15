@@ -1,0 +1,28 @@
+package co.edu.unisabana.backend.controller;
+
+import co.edu.unisabana.backend.entity.Name;
+import co.edu.unisabana.backend.service.NameService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
+public class ApiController {
+
+    private final RestTemplate restTemplate;
+
+    @Value("${api.internal.url}")
+    private String apiInternalUrl;
+
+    @GetMapping("/datos")
+    public String obtenerDatos() {
+        String datosInternos = restTemplate.getForObject(apiInternalUrl + "/datos", String.class);
+        return "Datos desde la API interna: " + datosInternos;
+    }
+}
